@@ -1,0 +1,9 @@
+name: drupal-tdd
+recipe: drupal9
+services:
+  appserver:
+    type: php:8.0
+    xdebug: true
+config:
+  webroot: web
+  xdebug: true

@@ -1,0 +1,17 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Setup Drupal
+    init: |
+      lando start
+      lando composer install
+      lando drush si -y --account-pass='drupal' --site-name='Drupal TDD' --locale='de'
+      #lando drush cset -y system.site uuid '70d0a691-e15c-4684-8500-d29048c50861'
+      #lando drush cset -y language.entity.de uuid '9f23010d-cd4d-4cde-abfb-f11e45c6f74d'
+      lando drush entity:delete -y shortcut_set
+      lando drush cim -y
+      gp preview $(gp url $(lando info --format=json | jq -r ".[0].urls[1]" | sed -e 's#http://localhost:\(\)#\1#'))
+
+  - name: Start Drupal
+    command: lando start
